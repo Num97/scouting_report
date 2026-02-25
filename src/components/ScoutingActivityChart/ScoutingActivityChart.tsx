@@ -11,7 +11,7 @@ const ScoutingActivityChart: React.FC<Props> = ({ data }) => {
     const map: Record<string, any> = {}
 
     const now = new Date()
-
+    
     data.forEach((item) => {
       if (item.status === "canceled") return
 
@@ -25,8 +25,11 @@ const ScoutingActivityChart: React.FC<Props> = ({ data }) => {
           late: 0,
           overdue: 0,
           planned: 0,
+          total: 0,
         }
       }
+
+      map[date].total++ // <-- вот это добавляем
 
       const end = new Date(item.end_time)
       const updated = new Date(item.updated_at)
@@ -52,12 +55,12 @@ const ScoutingActivityChart: React.FC<Props> = ({ data }) => {
           data: sortedDates.map((d) => map[d].late),
         },
         {
-          name: "В процессе",
-          data: sortedDates.map((d) => map[d].planned),
-        },
-        {
           name: "Просрочено",
           data: sortedDates.map((d) => map[d].overdue),
+        },
+        {
+          name: "Всего заданий",
+          data: sortedDates.map((d) => map[d].total),
         },
       ],
     }
@@ -97,7 +100,7 @@ const ScoutingActivityChart: React.FC<Props> = ({ data }) => {
         },
         },
     },
-    colors: ["#16a34a", "#f97316", "#08b5ea", "#dc2626"],
+    colors: ["#16a34a", "#f97316", "#dc2626", "#838383"],
     legend: {
       position: "top",
     labels: {

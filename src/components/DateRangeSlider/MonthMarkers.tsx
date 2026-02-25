@@ -1,4 +1,3 @@
-import React from "react";
 import type { ViewMode } from "./DateRangeSlider";  // Импортируем тип
 
 type Props = {
@@ -13,10 +12,10 @@ type Props = {
 export default function MonthMarkers({
   markers,
   totalDays,
-  onMonthClick,
+  // onMonthClick,
   isMonthActive,
   viewMode,
-  selectedMonth,
+  // selectedMonth,
 }: Props) {
   return (
     <>
@@ -25,7 +24,7 @@ export default function MonthMarkers({
         
         const percent = (m.dayOffset / totalDays) * 100;
         const isActive = isMonthActive(i);
-        const isSelectedMonth = selectedMonth?.getMonth() === i;
+        // const isSelectedMonth = selectedMonth?.getMonth() === i;
         
         // В недельном режиме делаем линии очень прозрачными
         const opacity = viewMode === "weeks" 

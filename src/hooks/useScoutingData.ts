@@ -23,7 +23,7 @@ export function useScoutingData(items: ScoutingReportItem[]) {
         group.stats.total++;
       }
       // Агрегация по шаблонам
-      const templateName = item.scout_report_template_name;
+      const templateName = item.scout_report_template_name || 'Без шаблона';
       if (!group.reports.has(templateName)) {
         group.reports.set(templateName, {
           templateName,

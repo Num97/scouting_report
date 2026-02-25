@@ -29,6 +29,19 @@ export default function DateRangeSlider({
   const maxTs = max.getTime();
   const totalDays = Math.floor((maxTs - minTs) / MS_PER_DAY);
 
+  const isDraggingRef = useRef(false);
+
+  const handleDragStart = () => {
+  isDraggingRef.current = true;
+};
+
+const handleDragEnd = () => {
+  // Даем небольшую задержку, чтобы клик не сработал сразу после перетаскивания
+  setTimeout(() => {
+    isDraggingRef.current = false;
+  }, 100);
+};
+
   // Генерация месяцев для общего вида
   const monthMarkers = useMemo(() => {
     const year = min.getFullYear();
@@ -116,7 +129,7 @@ export default function DateRangeSlider({
 
   const { startPercent: weekStartPercent, endPercent: weekEndPercent } = getWeekModePositions();
 
-  const handleMonthClick = (monthDate: Date, monthIndex: number) => {
+  const handleMonthClick = (monthDate: Date) => {
     const monthStart = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
     const monthEnd = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
     
@@ -145,6 +158,9 @@ export default function DateRangeSlider({
 
   const handleTrackClick = (e: React.MouseEvent) => {
     if (!trackRef.current) return;
+      if (isDraggingRef.current) {
+    return;
+  }
 
     const rect = trackRef.current.getBoundingClientRect();
     const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
@@ -197,7 +213,7 @@ export default function DateRangeSlider({
   };
 
   return (
-    <div className="mb-8 p-6 rounded-2xl bg-white dark:bg-stone-800 shadow-md min-h-[190px]">
+    <div className="mb-8 p-6 rounded-2xl bg-stone-100 dark:bg-stone-800 shadow-md min-h-[190px]">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-4 mb-3">
@@ -235,6 +251,7 @@ export default function DateRangeSlider({
         {/* Кликабельный трек */}
         <div
           ref={trackRef}
+
           onClick={handleTrackClick}
           className="relative h-3 rounded-full bg-stone-200 dark:bg-stone-700 cursor-pointer"
         >
@@ -291,6 +308,8 @@ export default function DateRangeSlider({
                     onChange(start, newEnd);
                   }
                 }}
+                onMouseDown={handleDragStart}  
+                onMouseUp={handleDragEnd}      
               />
             ) : (
               selectedMonth && weekRange && (
@@ -342,7 +361,7 @@ export default function DateRangeSlider({
                 <button
                   key={i}
                   type="button"
-                  onClick={() => handleMonthClick(m.date, i)}
+                  onClick={() => handleMonthClick(m.date)}
                   className={`
                     absolute transition-all duration-200
                     hover:text-stone-900 dark:hover:text-white
@@ -396,10 +415,10 @@ export default function DateRangeSlider({
                     zIndex: 10,
                   }}
                 >
-                  <span className="text-xs bg-white/80 dark:bg-stone-800/80 px-1 rounded backdrop-blur-sm">
+                  <span className="text-xs bg-stone-100/80 dark:bg-stone-800/80 px-1 rounded backdrop-blur-sm">
                     {week.startDate.getDate()} {getMonthInGenitive(week.startDate)} - {week.endDate.getDate()} {getMonthInGenitive(week.endDate)}
                   </span>
-                  <span className="text-xs opacity-60">
+                  <span className="text-xs opacity-90">
                     нед. {week.weekNumber}
                   </span>
                 </button>
