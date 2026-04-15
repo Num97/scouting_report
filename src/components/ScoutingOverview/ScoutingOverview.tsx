@@ -30,7 +30,9 @@ const ScoutingOverview: React.FC<Props> = ({ data }) => {
       total: 0,
     }
 
-    const now = new Date()
+    const today = new Date()
+
+    const now = new Date(today.getFullYear(), today.getMonth(), today.getDate())
 
     data.forEach((item) => {
       if (item.status === "canceled") return

@@ -32,7 +32,9 @@ export function useTemplateScoutingData(items: ScoutingReportItem[]) {
         template.stats.total++
       }
 
-      const now = new Date()
+      const today = new Date()
+
+      const now  = new Date(today.getFullYear(), today.getMonth(), today.getDate())
       const endTime = parseDate(item.end_time)
       const updatedAt = parseDate(item.updated_at)
 

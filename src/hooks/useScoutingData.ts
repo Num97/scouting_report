@@ -40,7 +40,9 @@ export function useScoutingData(items: ScoutingReportItem[]) {
       }
 
       // Подсчет статусов
-      const now = new Date();
+      const today = new Date();
+      const now = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
       const endTime = parseDate(item.end_time);
       const updatedAt = parseDate(item.updated_at);
       

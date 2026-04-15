@@ -10,7 +10,8 @@ const ScoutingActivityChart: React.FC<Props> = ({ data }) => {
   const chartData = useMemo(() => {
     const map: Record<string, any> = {}
 
-    const now = new Date()
+    const today = new Date()
+    const now = new Date(today.getFullYear(), today.getMonth(), today.getDate())
     
     data.forEach((item) => {
       if (item.status === "canceled") return
