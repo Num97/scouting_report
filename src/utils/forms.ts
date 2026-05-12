@@ -13,3 +13,19 @@ export interface ScoutingReportItem {
   updated_at: string; 
   scout_report_id: number;
 }
+
+export interface TemplateView {
+  id: number;
+  scout_report_template_name: string | null;
+}
+
+export interface ScoutReportTemplate {
+  id: number;
+  name: string | null;
+}
+
+export interface ScoutReportTemplatesResponse {
+  status: string;
+  count: number;
+  data: ScoutReportTemplate[];
+}
